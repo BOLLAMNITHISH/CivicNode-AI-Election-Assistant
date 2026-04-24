@@ -16,8 +16,6 @@
 # next.js
 /.next/
 /out/
-
-# production
 /build
 
 # misc
@@ -30,8 +28,15 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
+# local env files (Crucial for preventing leaked API keys)
+.env*.local
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Allow committing example environment files
+!.env.example
 
 # vercel
 .vercel
