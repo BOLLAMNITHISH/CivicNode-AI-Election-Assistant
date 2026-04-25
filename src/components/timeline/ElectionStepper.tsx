@@ -16,7 +16,8 @@ import {
   Globe,
   Loader2,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import type { ElectionEvent, ElectionDataResponse, ElectionDataErrorResponse, EventType } from "@/types";
 
 // ─────────────────────────────────────────────
@@ -261,16 +262,14 @@ const EventCard: React.FC<EventCardProps> = ({ event, index, isLast, isExpanded,
                             <span className="text-sm font-medium text-slate-700">{item.label}</span>
                           </div>
                           {item.href && (
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              asChild
-                              className="h-8 text-xs font-semibold rounded-lg bg-white gap-1.5 flex-shrink-0"
+                            <a
+                              href={item.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className={cn(buttonVariants({ variant: "outline", size: "sm" }), "h-8 text-xs font-semibold rounded-lg bg-white gap-1.5 flex-shrink-0")}
                             >
-                              <a href={item.href} target="_blank" rel="noopener noreferrer">
-                                Open <ExternalLink className="w-3 h-3" />
-                              </a>
-                            </Button>
+                              Open <ExternalLink className="w-3 h-3" />
+                            </a>
                           )}
                         </div>
                       ))}

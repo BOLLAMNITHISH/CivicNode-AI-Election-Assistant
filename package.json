@@ -10,11 +10,11 @@
     "test": "jest"
   },
   "dependencies": {
-    "@ai-sdk/google": "^3.0.64",
-    "@ai-sdk/openai": "^3.0.53",
-    "@ai-sdk/react": "^3.0.170",
+    "@ai-sdk/google": "^0.0.55",
+    "@ai-sdk/openai": "^0.0.66",
+    "@ai-sdk/react": "^1.2.12",
     "@base-ui/react": "^1.4.1",
-    "ai": "^6.0.168",
+    "ai": "^3.4.33",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "framer-motion": "^12.38.0",
@@ -42,6 +42,7 @@
     "jest-environment-jsdom": "^30.3.0",
     "tailwindcss": "^4",
     "ts-jest": "^29.4.9",
+    "ts-node": "^10.9.2",
     "typescript": "^5"
   }
 }
