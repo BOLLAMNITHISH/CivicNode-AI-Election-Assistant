@@ -32,6 +32,8 @@ import {
   getEventsForState,
 } from "@/lib/services/election-service";
 import { rateLimit } from "@/lib/rate-limit";
+import { db } from "@/lib/firebase";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import type { EventType, ElectionDataResponse, ElectionDataErrorResponse } from "@/types";
 
 const VALID_EVENT_TYPES: EventType[] = [
@@ -116,6 +118,19 @@ export async function GET(request: NextRequest) {
       upcomingOnly,
     });
 
+    // Log the API usage to Firebase
+    try {
+      await addDoc(collection(db, 'api_logs'), {
+        endpoint: '/api/election-data',
+        ip: ip,
+        stateRequested: state,
+        eventTypeFilter: eventType || 'none',
+        timestamp: serverTimestamp(),
+      });
+    } catch (dbError) {
+      console.error('[/api/election-data] Failed to log interaction to Firebase:', dbError);
+    }
+
     // ── 5. Return response ───────────────────────────────────────────────
     const body: ElectionDataResponse = {
       state,
@@ -140,3 +155,4 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(body, { status: 500 });
   }
 }
+

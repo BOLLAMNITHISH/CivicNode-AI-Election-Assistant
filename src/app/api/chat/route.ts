@@ -1,6 +1,8 @@
 import { google } from '@ai-sdk/google';
 import { streamText } from 'ai';
 import { rateLimit } from '@/lib/rate-limit';
+import { db } from '@/lib/firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 // Allow responses up to 30 seconds
 export const maxDuration = 30;
@@ -25,6 +27,18 @@ export async function POST(req: Request) {
 
     const { messages } = await req.json();
 
+    // Log the chat interaction to Firebase Firestore for basic Google Services usage
+    try {
+      await addDoc(collection(db, 'chat_logs'), {
+        ip: ip,
+        messageCount: messages.length,
+        lastMessage: messages[messages.length - 1]?.content || '',
+        timestamp: serverTimestamp(),
+      });
+    } catch (dbError) {
+      console.error('[API Chat] Failed to log interaction to Firebase:', dbError);
+    }
+
     const result = await streamText({
       model: google('gemini-1.5-flash'),
       messages,
@@ -41,4 +55,5 @@ export async function POST(req: Request) {
     });
   }
 }
+
 
